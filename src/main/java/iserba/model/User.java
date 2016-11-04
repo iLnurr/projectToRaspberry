@@ -2,21 +2,23 @@ package iserba.model;
 
 import java.util.List;
 
-public class User {    
-    private Integer id;
+public class User {
+    private static int globalUserSequence = 10000;
+    private Integer id=globalUserSequence;
     private String name;
-    private String password;
     private String email;
+    private String password;
     protected List<UserQuotations> quotations;
 
     public User() {
     }
 
-    public User(Integer id, String name, String password, String email) {
+    public User(Integer id, String name, String email, String password) {
         this.id = id;
         this.name = name;
-        this.password = password;
         this.email = email;
+        this.password = password;
+        globalUserSequence++;
     }
 
     public int getId() {

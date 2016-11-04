@@ -3,7 +3,8 @@ package iserba.model;
 import java.time.LocalDateTime;
 
 public class UserQuotations {
-    private Integer id;
+    private int globalSequenceQuota = 50000;
+    private Integer id=globalSequenceQuota;
     private String description;
     private LocalDateTime dateTime;
     private User user;
@@ -15,6 +16,7 @@ public class UserQuotations {
         this.id = id;
         this.description = description;
         this.dateTime = dateTime;
+        globalSequenceQuota++;
     }
 
     public int getId() {

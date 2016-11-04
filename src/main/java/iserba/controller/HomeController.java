@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Controller
 public class HomeController {
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     @Autowired
     private UserService userService;
 
@@ -45,7 +49,9 @@ public class HomeController {
     public ModelAndView saveQuota(@ModelAttribute UserQuotations userQuotations, HttpServletRequest request) {
         String userName = request.getParameter("userId");
         int userId = userService.getUserIdByUserName(userName);
-        userQuotations.setDateTime(LocalDateTime.now());
+        userQuotations.setDateTime(
+                LocalDateTime.parse(LocalDateTime.now().format(DATE_TIME_FORMATTER), DATE_TIME_FORMATTER)
+        );
         userQuotationsService.save(userQuotations, userId);
         return new ModelAndView("redirect:/");
     }

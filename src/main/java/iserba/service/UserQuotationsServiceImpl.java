@@ -62,7 +62,6 @@ public class UserQuotationsServiceImpl implements UserQuotationsService {
         });
     }
 
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     @Override
     public String getFormattedDate(LocalDateTime localDateTime) {
         return localDateTime.format(DATE_TIME_FORMATTER);
