@@ -3,20 +3,25 @@ package iserba.model;
 import java.time.LocalDateTime;
 
 public class UserQuotations {
-    private int globalSequenceQuota = 50000;
+    private static int globalSequenceQuota = 50000;
+    private boolean sequenceUsed = false;
     private Integer id=globalSequenceQuota;
     private String description;
     private LocalDateTime dateTime;
     private User user;
 
     public UserQuotations() {
+        globalSequenceQuota++;
+        sequenceUsed=true;
     }
 
     public UserQuotations(int id, String description, LocalDateTime dateTime) {
         this.id = id;
         this.description = description;
         this.dateTime = dateTime;
-        globalSequenceQuota++;
+        if (!sequenceUsed){
+            globalSequenceQuota++;
+        }
     }
 
     public int getId() {

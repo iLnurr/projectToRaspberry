@@ -9,7 +9,7 @@ CREATE TABLE users
 CREATE TABLE quotations (
   id          INTEGER PRIMARY KEY,
   date_time    TIMESTAMP NOT NULL,
-  description VARCHAR(8042) NOT NULL,
+  description VARCHAR(8026) NOT NULL,
   user_id     INTEGER NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );

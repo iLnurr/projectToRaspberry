@@ -4,6 +4,7 @@ import java.util.List;
 
 public class User {
     private static int globalUserSequence = 10000;
+    private boolean seqUsed = false;
     private Integer id=globalUserSequence;
     private String name;
     private String email;
@@ -11,6 +12,8 @@ public class User {
     protected List<UserQuotations> quotations;
 
     public User() {
+        globalUserSequence++;
+        seqUsed=true;
     }
 
     public User(Integer id, String name, String email, String password) {
@@ -18,7 +21,9 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
-        globalUserSequence++;
+        if (!seqUsed){
+            globalUserSequence++;
+        }
     }
 
     public int getId() {

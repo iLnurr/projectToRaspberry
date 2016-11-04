@@ -48,6 +48,9 @@ public class HomeController {
     @RequestMapping(value = "/saveQuota", method = RequestMethod.POST)
     public ModelAndView saveQuota(@ModelAttribute UserQuotations userQuotations, HttpServletRequest request) {
         String userName = request.getParameter("userId");
+        if (userName.isEmpty()){
+            userName="User-Anonymous";
+        }
         int userId = userService.getUserIdByUserName(userName);
         userQuotations.setDateTime(
                 LocalDateTime.parse(LocalDateTime.now().format(DATE_TIME_FORMATTER), DATE_TIME_FORMATTER)

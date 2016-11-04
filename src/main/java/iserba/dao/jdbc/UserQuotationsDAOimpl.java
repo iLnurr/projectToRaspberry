@@ -29,6 +29,7 @@ public class UserQuotationsDAOimpl implements UserQuotationsDAO {
 
     @Override
     public UserQuotations save(UserQuotations userQuotations, int userId) {
+        System.out.println("_____________________________________ userQuotationsID= "+userQuotations.getId());
         jdbcTemplate.update("INSERT INTO quotations(id, date_time, description, user_id) VALUES(?, ?, ?, ?)",
                 userQuotations.getId(),
                 userQuotations.getDateTime(),
