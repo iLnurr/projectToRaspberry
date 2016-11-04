@@ -25,8 +25,6 @@ public class UserDAOImpl implements UserDAO{
     public User save(User user) {
         int n = jdbcTemplate.update("INSERT INTO users(id, name, email, password) VALUES(?, ?, ?, ?)",
                 user.getId(), user.getName(), user.getEmail(), user.getPassword());
-
-        System.out.println("________________________________ result of user save = "+ n+" user_id= "+user.getId());
         return user;
     }
 
@@ -48,7 +46,6 @@ public class UserDAOImpl implements UserDAO{
                         return user;
                     }
                 });
-        System.out.println("______________________ get name="+user.getName());
         return user;
 
     }
