@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 public class HomeController {
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     @Autowired
     private UserService userService;
 
@@ -32,7 +32,7 @@ public class HomeController {
         model.addAttribute("userQuotationsService", userQuotationsService);
         model.addAttribute("userService", userService);
         model.addAttribute("quotationsList", userQuotationsList);
-        return "quotasCatalog";
+        return "index";
     }
 
     @RequestMapping(value = "/newQuota", method = RequestMethod.GET)
@@ -45,16 +45,25 @@ public class HomeController {
 
     @RequestMapping(value = "/saveQuota", method = RequestMethod.POST)
     public ModelAndView saveQuota(@ModelAttribute UserQuotations userQuotations, HttpServletRequest request) {
-        String userName = request.getParameter("userId");
+        String userName = request.getParameter("name");
+        System.out.println(userName);
         if (userName.isEmpty()){
             userName="User-Anonymous";
         }
         int userId = userService.getUserIdByUserName(userName);
+        if (userId==0 && !userName.equals("User")){
+            User newU = new User();
+            newU.setEmail("user@yandex.ru");
+            newU.setName(userName);
+            newU.setPassword("12345");
+            userService.save(newU);
+            userId = userService.getUserIdByUserName(userName);
+        }
         userQuotations.setDateTime(
                 LocalDateTime.parse(LocalDateTime.now().format(DATE_TIME_FORMATTER), DATE_TIME_FORMATTER)
         );
         userQuotationsService.save(userQuotations, userId);
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/index");
     }
 
     @RequestMapping("/userList")
@@ -92,10 +101,5 @@ public class HomeController {
     public ModelAndView saveUser(@ModelAttribute User user) {
         userService.save(user);
         return new ModelAndView("redirect:/");
-    }
-
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView index() {
-        return new ModelAndView("index");
     }
 }

@@ -13,21 +13,9 @@
 <div align="center">
     <h1>Добавить цитату</h1>
     <div>
-        <div style="width: 25%; display: inline-block; height: 40px">
-            <p>Имя</p>
-            <input type="text" name="user" id="field" style="width: 100%; height: 100%" value="">
-        </div>
-        <div style="width: 25%; display: inline-block; height: 40px">
-            <select name="user">
-                <c:forEach items="${userService.getAll()}" var="user">
-                    <option id="text" onclick="document.getElementById('field').value = this.value;
-                    document.getElementById('userId').value = this.value"
-                            value="${user.name}" style="width: 100%; height: 100%">${user.name}</option>
-
-                </c:forEach>
-            </select>
-        </div>
         <form:form action="saveQuota" method="post" modelAttribute="userQuotations">
+
+            <div>Имя<input type="text" name="name"><br/></div>
             <div>
                 <form:textarea path="description" cols="20" rows="10" cssStyle="width: 50%; text-align: start"/>
             </div>
@@ -35,7 +23,6 @@
                 <input type="reset" style="background: red; color: white; height: 40px" value="Отменить">
                 <input type="submit" style="background: green; color: white; height: 40px;width: 40px" value="+">
             </div>
-            <input type="hidden" id="userId" name="userId" value=""/>
         </form:form>
     </div>
 </div>
