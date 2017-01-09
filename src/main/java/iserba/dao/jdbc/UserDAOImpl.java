@@ -30,7 +30,6 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public User get(int id) {
-        System.out.println("_________________in userDAO.get id="+id);
         User user = this.jdbcTemplate.queryForObject(
                 "select * from users where id = ?",
                 new Object[]{id},
@@ -38,7 +37,6 @@ public class UserDAOImpl implements UserDAO{
                     @Override
                     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
                         User user = new User();
-                        System.out.println(id + " " + rs.getString("name") + " " + rs.getString("email") + rs.getString("password"));
                         user.setId(id);
                         user.setName(rs.getString("name"));
                         user.setEmail(rs.getString("email"));
