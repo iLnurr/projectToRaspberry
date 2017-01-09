@@ -93,4 +93,9 @@ public class HomeController {
         userService.save(user);
         return new ModelAndView("redirect:/");
     }
+
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public ModelAndView index() {
+        return new ModelAndView("index");
+    }
 }
