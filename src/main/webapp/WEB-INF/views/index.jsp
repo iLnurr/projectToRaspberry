@@ -16,15 +16,23 @@
 	<div class="header" style="	height: 120px;background: #666666;">
 		<p><input type="button" onclick='location.href="/new"' value="Зарегистрироваться"></p>
 		<p style="width: 100%; text-align: center"><strong style="color: #bfbfbf; font: 24px Arial, sans-serif;">Записки на быструю руку</strong></p>
-		<p><input type="button" onclick='location.href="/newQuota"' value="Добавить цитату     "></p>
+		<p>
+			<input type="button" onclick='location.href="/newQuota"' value="Добавить цитату     ">
+			<select onclick="" >
+				<option value="Сортировка по дате" onclick="${userQuotationsService.sortByDate(quotationsList)}">
+					Сортировка по дате
+				</option>
+			</select>
+		</p>
 	</div><!-- .header-->
 
 	<div class="middle" style="	width: 100%;padding: 0 0 100px;position: relative;">
 		<div class="container" style="width: 100%;float: left;overflow: hidden;">
-			<div class="content" style="padding: 0 120px 0 120px;border: 2px solid #888888;">
+
 				<c:choose>
 					<c:when test="${quotationsList.size() > '0'}">
 						<c:forEach items="${quotationsList}" var="userQuotations">
+					<div class="content" style="padding: 0 120px 0 120px;border: 2px solid #888888;">
 							<tr>
 								<td >${userQuotationsService.getFormattedDate(userQuotations.getDateTime())}</td>
 								<td >${userService.get(userQuotationsService.getUserId(userQuotations.getId())).name}</td>
@@ -34,13 +42,14 @@
 										${userQuotations.getDescription()}
 								</p>
 							</tr>
+					</div><!-- .content-->
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
 						<p>В цитатнике на данный момент нет цитат.</p>
 					</c:otherwise>
 				</c:choose>
-			</div><!-- .content-->
+
 		</div><!-- .container-->
 
 		<div class="left-sidebar" style="float:left;width:120px;height:100%;margin-left:-100%;position:relative;background:#666666;">

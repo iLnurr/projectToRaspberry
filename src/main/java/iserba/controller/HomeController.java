@@ -46,7 +46,6 @@ public class HomeController {
     @RequestMapping(value = "/saveQuota", method = RequestMethod.POST)
     public ModelAndView saveQuota(@ModelAttribute UserQuotations userQuotations, HttpServletRequest request) {
         String userName = request.getParameter("name");
-        System.out.println(userName);
         if (userName.isEmpty()){
             userName="User-Anonymous";
         }
@@ -63,7 +62,7 @@ public class HomeController {
                 LocalDateTime.parse(LocalDateTime.now().format(DATE_TIME_FORMATTER), DATE_TIME_FORMATTER)
         );
         userQuotationsService.save(userQuotations, userId);
-        return new ModelAndView("redirect:/index");
+        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping("/userList")
