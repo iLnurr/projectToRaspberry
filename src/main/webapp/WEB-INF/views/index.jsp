@@ -23,6 +23,7 @@
 					Сортировка по дате
 				</option>
 			</select>
+			<input type="button" onclick='location.href="/userList"' value="Список пользователей">
 		</p>
 	</div><!-- .header-->
 

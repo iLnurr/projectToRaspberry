@@ -54,6 +54,8 @@ public class UserDAOImpl implements UserDAO{
     @Override
     public boolean delete(int id) {
         this.jdbcTemplate.update(
+                "delete from quotations where user_id = ?", id);
+        this.jdbcTemplate.update(
                 "delete from users where id = ?", id);
         return true;
     }
