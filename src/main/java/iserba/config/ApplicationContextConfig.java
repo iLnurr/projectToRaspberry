@@ -55,7 +55,7 @@ public class ApplicationContextConfig {
     @Profile(Profiles.HIBERNATE)
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
+        em.setDataSource(h2dataSource());
         em.setPackagesToScan(new String[] { "iserba.model" });
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -67,7 +67,7 @@ public class ApplicationContextConfig {
 
     @Bean(name = "dataSource")
     @Profile(Profiles.POSTGRES)
-    public DataSource dataSource(){
+    public DataSource pgDataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");

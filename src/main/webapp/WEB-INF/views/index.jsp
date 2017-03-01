@@ -46,7 +46,7 @@
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
-						<p>В цитатнике на данный момент нет цитат.</p>
+						<p style="text-align: center">В цитатнике на данный момент нет цитат.</p>
 					</c:otherwise>
 				</c:choose>
 
