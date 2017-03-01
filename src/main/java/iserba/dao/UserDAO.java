@@ -17,8 +17,4 @@ public interface UserDAO {
     User getByEmail(String email);
 
     List<User> getAll();
-
-    default User getWithQuotations(int id){
-        throw new UnsupportedOperationException();
-    }
 }
