@@ -1,7 +1,9 @@
 package iserba.dao.hibernate;
 
+import iserba.Profiles;
 import iserba.dao.UserDAO;
 import iserba.model.User;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +13,7 @@ import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
+@Profile(Profiles.HIBERNATE)
 public class JpaUserDAOImpl implements UserDAO{
 
     @PersistenceContext

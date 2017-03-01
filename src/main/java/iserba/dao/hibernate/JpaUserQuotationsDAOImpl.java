@@ -1,8 +1,10 @@
 package iserba.dao.hibernate;
 
+import iserba.Profiles;
 import iserba.dao.UserQuotationsDAO;
 import iserba.model.User;
 import iserba.model.UserQuotations;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ import java.util.List;
  */
 @Repository
 @Transactional(readOnly = true)
+@Profile(Profiles.HIBERNATE)
 public class JpaUserQuotationsDAOImpl implements UserQuotationsDAO{
     @PersistenceContext
     private EntityManager em;
