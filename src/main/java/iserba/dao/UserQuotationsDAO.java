@@ -23,9 +23,5 @@ public interface UserQuotationsDAO {
     // ORDERED dateTime
     Collection<UserQuotations> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);
 
-    default UserQuotations getWithUser(Integer id, Integer userId) {
-        throw new UnsupportedOperationException();
-    }
-
     int getUserId(int userQuotationsId);
 }

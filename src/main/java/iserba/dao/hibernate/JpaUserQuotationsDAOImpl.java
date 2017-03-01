@@ -11,6 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -60,7 +64,14 @@ public class JpaUserQuotationsDAOImpl implements UserQuotationsDAO{
 
     @Override
     public List<UserQuotations> getAll() {
-        return em.createQuery("from " + UserQuotations.class.getName()).getResultList();
+        final CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        final CriteriaQuery<UserQuotations> criteriaQuery = criteriaBuilder.createQuery(UserQuotations.class);
+
+        Root<UserQuotations> root = criteriaQuery.from(UserQuotations.class);
+        criteriaQuery.select(root);
+        TypedQuery<UserQuotations> qry = em.createQuery(criteriaQuery);
+        List<UserQuotations> list = qry.getResultList();
+        return list;
     }
 
     @Override

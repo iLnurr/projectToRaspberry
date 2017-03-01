@@ -9,6 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Repository
@@ -57,6 +62,13 @@ public class JpaUserDAOImpl implements UserDAO{
     @Override
     @Transactional
     public List<User> getAll() {
-        return em.createQuery("from " + User.class.getName()).getResultList();
+        final CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        final CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+
+        Root<User> root = criteriaQuery.from(User.class);
+        criteriaQuery.select(root);
+        TypedQuery<User> qry = em.createQuery(criteriaQuery);
+        List<User> list = qry.getResultList();
+        return list;
     }
 }
