@@ -28,6 +28,7 @@ public class JpaUserDAOImpl implements UserDAO{
     }
 
     @Override
+    @Transactional
     public User get(int id) {
         return em.find(User.class, id);
     }
@@ -39,16 +40,19 @@ public class JpaUserDAOImpl implements UserDAO{
     }
 
     @Override
+    @Transactional
     public User getByEmail(String email) {
         return em.createNamedQuery(User.BY_EMAIL, User.class).setParameter(1, email).getSingleResult();
     }
 
     @Override
+    @Transactional
     public User getByName(String name) {
         return em.createNamedQuery(User.BY_NAME, User.class).setParameter(1, name).getSingleResult();
     }
 
     @Override
+    @Transactional
     public List<User> getAll() {
         return em.createQuery("from " + User.class.getName()).getResultList();
     }
