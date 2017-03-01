@@ -53,7 +53,7 @@ public class UserQuotationsServiceImpl implements UserQuotationsService {
 
     @Override
     public void sortByDate(List<UserQuotations> list) {
-        list.sort(Comparator.comparing(UserQuotations::getDateTime));
+        list.sort((o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime()));
     }
 
     @Override

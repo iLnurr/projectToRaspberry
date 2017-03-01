@@ -19,7 +19,6 @@ import java.util.List;
 
 @Controller
 public class HomeController {
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     @Autowired
     private UserService userService;
 
@@ -58,9 +57,7 @@ public class HomeController {
             userService.save(newU);
             userId = userService.getUserIdByUserName(userName);
         }
-        userQuotations.setDateTime(
-                LocalDateTime.parse(LocalDateTime.now().format(DATE_TIME_FORMATTER), DATE_TIME_FORMATTER)
-        );
+        userQuotations.setDateTime(LocalDateTime.now());
         userQuotationsService.save(userQuotations, userId);
         return new ModelAndView("redirect:/");
     }
