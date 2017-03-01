@@ -1,10 +1,10 @@
 package iserba.config;
 
 import javax.sql.DataSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+
+import iserba.Profiles;
+import org.springframework.context.annotation.*;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -30,7 +30,8 @@ public class ApplicationContextConfig {
     }
 
     @Bean
-    public DataSource dataSource() {
+    @Profile(Profiles.H2)
+    public DataSource h2dataSource() {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         EmbeddedDatabase db = builder
                 .setType(EmbeddedDatabaseType.H2)

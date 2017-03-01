@@ -1,20 +1,21 @@
 package iserba.dao.jdbc;
 
+import iserba.Profiles;
 import iserba.dao.UserQuotationsDAO;
-import iserba.model.User;
 import iserba.model.UserQuotations;
 import iserba.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Profile(Profiles.JDBC)
 public class UserQuotationsDAOimpl implements UserQuotationsDAO {
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
     private JdbcTemplate jdbcTemplate;

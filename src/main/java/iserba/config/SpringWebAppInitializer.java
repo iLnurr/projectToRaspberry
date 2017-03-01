@@ -1,5 +1,6 @@
 package iserba.config;
 
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -14,6 +15,11 @@ public class SpringWebAppInitializer extends AbstractAnnotationConfigDispatcherS
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext appContext = new AnnotationConfigWebApplicationContext();
         appContext.register(ApplicationContextConfig.class);
+
+        final ConfigurableEnvironment env = appContext.getEnvironment();
+        env.setActiveProfiles("h2", "jdbc");
+
+        appContext.refresh();
 
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet(
                 "SpringDispatcher", new DispatcherServlet(appContext));

@@ -1,8 +1,10 @@
 package iserba.dao.jdbc;
 
+import iserba.Profiles;
 import iserba.dao.UserDAO;
 import iserba.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,6 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
+@Profile(Profiles.JDBC)
 public class UserDAOImpl implements UserDAO{
     private JdbcTemplate jdbcTemplate;
 
