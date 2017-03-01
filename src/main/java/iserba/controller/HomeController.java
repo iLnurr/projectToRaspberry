@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -45,18 +44,7 @@ public class HomeController {
     @RequestMapping(value = "/saveQuota", method = RequestMethod.POST)
     public ModelAndView saveQuota(@ModelAttribute UserQuotations userQuotations, HttpServletRequest request) {
         String userName = request.getParameter("name");
-        if (userName.isEmpty()){
-            userName="User-Anonymous";
-        }
         int userId = userService.getUserIdByUserName(userName);
-        if (userId==0 && !userName.equals("User")){
-            User newU = new User();
-            newU.setEmail("user@yandex.ru");
-            newU.setName(userName);
-            newU.setPassword("12345");
-            userService.save(newU);
-            userId = userService.getUserIdByUserName(userName);
-        }
         userQuotations.setDateTime(LocalDateTime.now());
         userQuotationsService.save(userQuotations, userId);
         return new ModelAndView("redirect:/");
