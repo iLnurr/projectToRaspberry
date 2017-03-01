@@ -47,13 +47,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public int getUserIdByUserName(String userName) {
-        List<User> userList = userDAO.getAll();
-        int userId=0;
-        for(User user : userList){
-            if (user.getName().equals(userName)){
-                userId = user.getId();
-            }
-        }
-        return userId;
+        User user = userDAO.getByName(userName);
+        return user.getId();
     }
 }

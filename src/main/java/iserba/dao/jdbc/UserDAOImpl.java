@@ -76,6 +76,21 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    public User getByName(String name) {
+        return this.jdbcTemplate.queryForObject(
+                "select id, email, password from users where name = ?",
+                new Object[]{name},
+                (rs, rowNum) -> {
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString(name));
+                    user.setPassword(rs.getString("password"));
+                    return user;
+                });
+    }
+
+    @Override
     public List<User> getAll() {
         return this.jdbcTemplate.query(
                 "select id, name, email, password from users",

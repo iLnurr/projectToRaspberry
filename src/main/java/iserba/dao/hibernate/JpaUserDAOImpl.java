@@ -44,6 +44,11 @@ public class JpaUserDAOImpl implements UserDAO{
     }
 
     @Override
+    public User getByName(String name) {
+        return em.createNamedQuery(User.BY_NAME, User.class).setParameter(1, name).getSingleResult();
+    }
+
+    @Override
     public List<User> getAll() {
         return em.createQuery("from " + User.class.getName()).getResultList();
     }
