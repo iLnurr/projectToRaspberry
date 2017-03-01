@@ -55,7 +55,7 @@ public class ApplicationContextConfig {
     @Profile(Profiles.HIBERNATE)
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(h2dataSource());
+        em.setDataSource(pgDataSource());
         em.setPackagesToScan(new String[] { "iserba.model" });
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -71,7 +71,7 @@ public class ApplicationContextConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
-        dataSource.setUsername( "user" );
+        dataSource.setUsername( "postgres" );
         dataSource.setPassword( "password" );
         return dataSource;
     }
@@ -94,7 +94,7 @@ public class ApplicationContextConfig {
     Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "create");
-        properties.setProperty("hibernate.hbm2ddl.import_files","/resources/populateDB.sql");
+        properties.setProperty("hibernate.hbm2ddl.import_files","/resources/data.sql");
         properties.put("hibernate.show_sql", "true");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL94Dialect");
         return properties;

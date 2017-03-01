@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -52,14 +53,7 @@ public class UserQuotationsServiceImpl implements UserQuotationsService {
 
     @Override
     public void sortByDate(List<UserQuotations> list) {
-        list.sort((o1, o2) -> {
-            if (o1.getDateTime().isAfter(o2.getDateTime())){
-                return -1;
-            } else if (o1.getDateTime().isBefore(o2.getDateTime())){
-                return 1;
-            }
-            return 0;
-        });
+        list.sort(Comparator.comparing(UserQuotations::getDateTime));
     }
 
     @Override

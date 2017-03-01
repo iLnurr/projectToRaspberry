@@ -127,9 +127,6 @@
                     <version>2.3.1</version>
                 </dependency>
             </dependencies>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
         <profile>
             <id>postgres</id>
@@ -140,6 +137,9 @@
                     <version>9.4.1208</version>
                 </dependency>
             </dependencies>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
     </profiles>
 </project>
