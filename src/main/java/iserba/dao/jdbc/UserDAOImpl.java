@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
+@Transactional(readOnly = true)
 @Profile(Profiles.JDBC)
 public class UserDAOImpl implements UserDAO{
     private JdbcTemplate jdbcTemplate;
@@ -25,6 +27,7 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    @Transactional
     public User save(User user) {
         int n = jdbcTemplate.update("INSERT INTO users(id, name, email, password) VALUES(?, ?, ?, ?)",
                 user.getId(), user.getName(), user.getEmail(), user.getPassword());
@@ -32,6 +35,7 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    @Transactional
     public User get(int id) {
         User user = this.jdbcTemplate.queryForObject(
                 "select * from users where id = ?",
@@ -52,6 +56,7 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
         this.jdbcTemplate.update(
                 "delete from quotations where user_id = ?", id);
@@ -61,6 +66,7 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    @Transactional
     public User getByEmail(String email) {
         return this.jdbcTemplate.queryForObject(
                 "select id, name, password from users where email = ?",
@@ -76,6 +82,7 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    @Transactional
     public User getByName(String name) {
         return this.jdbcTemplate.queryForObject(
                 "select id, email, password from users where name = ?",
@@ -91,6 +98,7 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
+    @Transactional
     public List<User> getAll() {
         return this.jdbcTemplate.query(
                 "select id, name, email, password from users",

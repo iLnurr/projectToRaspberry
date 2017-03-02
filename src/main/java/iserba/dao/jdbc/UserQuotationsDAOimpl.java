@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ public class UserQuotationsDAOimpl implements UserQuotationsDAO {
     }
 
     @Override
+    @Transactional
     public UserQuotations save(UserQuotations userQuotations, int userId) {
         jdbcTemplate.update("INSERT INTO quotations(id, date_time, description, user_id) VALUES(?, ?, ?, ?)",
                 userQuotations.getId(),
@@ -39,11 +41,13 @@ public class UserQuotationsDAOimpl implements UserQuotationsDAO {
     }
 
     @Override
+    @Transactional
     public boolean delete(int id, int userId) {
         return true;
     }
 
     @Override
+    @Transactional
     public UserQuotations get(int id, int userId) {
         return this.jdbcTemplate.queryForObject(
                 "select date_time, description from quotations where id = ? and user_id = ?",
@@ -59,6 +63,7 @@ public class UserQuotationsDAOimpl implements UserQuotationsDAO {
     }
 
     @Override
+    @Transactional
     public List<UserQuotations> getAll() {
         return this.jdbcTemplate.query(
                 "select id, date_time, description, user_id from quotations",
@@ -73,6 +78,7 @@ public class UserQuotationsDAOimpl implements UserQuotationsDAO {
     }
 
     @Override
+    @Transactional
     public List<UserQuotations> getAll(int userId) {
         return this.jdbcTemplate.query(
                 "select id, date_time, description, user_id from quotations WHERE user_id = ?",
@@ -87,11 +93,13 @@ public class UserQuotationsDAOimpl implements UserQuotationsDAO {
     }
 
     @Override
+    @Transactional
     public List<UserQuotations> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return null;
     }
 
     @Override
+    @Transactional
     public int getUserId(int userQuotationsId){
         return this.jdbcTemplate.queryForObject(
                 "select user_id from quotations where id = ?",

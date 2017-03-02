@@ -54,6 +54,7 @@ public class JpaUserQuotationsDAOImpl implements UserQuotationsDAO{
     }
 
     @Override
+    @Transactional
     public UserQuotations get(int id, int userId) {
         List<UserQuotations> userQuotations = em.createNamedQuery(UserQuotations.GET, UserQuotations.class)
                 .setParameter("id", id)
@@ -63,6 +64,7 @@ public class JpaUserQuotationsDAOImpl implements UserQuotationsDAO{
     }
 
     @Override
+    @Transactional
     public List<UserQuotations> getAll() {
         final CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         final CriteriaQuery<UserQuotations> criteriaQuery = criteriaBuilder.createQuery(UserQuotations.class);
@@ -75,6 +77,7 @@ public class JpaUserQuotationsDAOImpl implements UserQuotationsDAO{
     }
 
     @Override
+    @Transactional
     public List<UserQuotations> getAll(int userId) {
         return em.createNamedQuery(UserQuotations.ALL_SORTED, UserQuotations.class)
                 .setParameter("userId", userId)
@@ -82,6 +85,7 @@ public class JpaUserQuotationsDAOImpl implements UserQuotationsDAO{
     }
 
     @Override
+    @Transactional
     public List<UserQuotations> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return em.createNamedQuery(UserQuotations.GET_BETWEEN, UserQuotations.class)
                 .setParameter("userId", userId)
@@ -90,6 +94,7 @@ public class JpaUserQuotationsDAOImpl implements UserQuotationsDAO{
     }
 
     @Override
+    @Transactional
     public int getUserId(int userQuotationsId) {
         return (int) em.createNativeQuery("SELECT user_id FROM quotations q WHERE q.id=:id")
                 .setParameter("id",userQuotationsId)
