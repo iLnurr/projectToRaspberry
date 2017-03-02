@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository
+@Transactional(readOnly = true)
 @Profile(Profiles.JDBC)
 public class UserQuotationsDAOimpl implements UserQuotationsDAO {
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
