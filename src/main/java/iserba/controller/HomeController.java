@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class HomeController {
@@ -27,9 +28,16 @@ public class HomeController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String catalog(Model model) {
         List<UserQuotations> userQuotationsList = (List<UserQuotations>) userQuotationsService.getAll();
-        model.addAttribute("userQuotationsService", userQuotationsService);
-        model.addAttribute("userService", userService);
-        model.addAttribute("quotationsList", userQuotationsList);
+        List<String> result = new ArrayList<>();
+        for (UserQuotations uq: userQuotationsList){
+            String userName = userService.get(userQuotationsService.getUserId(uq.getId())).getName();
+            String date = uq.getDateTime().toLocalDate().toString();
+            String quotation = uq.getDescription();
+            result.add(date + " " + userName + ": " + quotation);
+        }
+        List<String> reversedCopy = result.subList(0, result.size());
+        Collections.reverse(reversedCopy);
+        model.addAttribute("quotationsList", result);
         return "index";
     }
 

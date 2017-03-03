@@ -18,11 +18,6 @@
 		<p style="width: 100%; text-align: center"><strong style="color: #bfbfbf; font: 24px Arial, sans-serif;">Записки на быструю руку</strong></p>
 		<p>
 			<input type="button" onclick='location.href="/newQuota"' value="Добавить цитату     ">
-			<select onclick="" >
-				<option value="Сортировка по дате" onclick="${userQuotationsService.sortByDate(quotationsList)}">
-					Сортировка по дате
-				</option>
-			</select>
 			<input type="button" onclick='location.href="/userList"' value="Список пользователей">
 		</p>
 	</div><!-- .header-->
@@ -35,13 +30,7 @@
 						<c:forEach items="${quotationsList}" var="userQuotations">
 					<div class="content" style="padding: 0 120px 0 120px;border: 2px solid #888888;">
 							<tr>
-								<td >${userQuotationsService.getFormattedDate(userQuotations.getDateTime())}</td>
-								<td >${userService.get(userQuotationsService.getUserId(userQuotations.getId())).name}</td>
-							</tr>
-							<tr>
-								<p class="text">
-										${userQuotations.getDescription()}
-								</p>
+								<p class="text">${userQuotations}</p>
 							</tr>
 					</div><!-- .content-->
 						</c:forEach>
