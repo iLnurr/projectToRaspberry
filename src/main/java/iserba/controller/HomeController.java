@@ -45,7 +45,6 @@ public class HomeController {
     public ModelAndView newUserQuota() {
         ModelAndView model = new ModelAndView("quotaForm");
         model.addObject("userQuotations", new UserQuotations());
-        model.addObject("userService", userService);
         return model;
     }
 
