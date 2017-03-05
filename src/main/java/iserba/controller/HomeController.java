@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -59,9 +59,9 @@ public class HomeController {
     }
 
     @RequestMapping("/userList")
-    public ModelAndView handleRequest() throws Exception {
-        List<User> listUsers = userService.getAll();
+    public ModelAndView listOfUsers(){
         ModelAndView model = new ModelAndView("UserList");
+        List<User> listUsers = userService.getAll();
         model.addObject("userList", listUsers);
         return model;
     }
@@ -73,25 +73,29 @@ public class HomeController {
         return model;
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public ModelAndView editUser(HttpServletRequest request) {
-        int userId = Integer.parseInt(request.getParameter("id"));
-        User user = userService.get(userId);
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public ModelAndView saveUser(@ModelAttribute User user) {
+        userService.save(user);
+        return new ModelAndView("redirect:/");
+    }
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView editUser(@PathVariable Integer id) {
+        User user = userService.get(id);
         ModelAndView model = new ModelAndView("UserForm");
         model.addObject("user", user);
         return model;
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public ModelAndView deleteUser(HttpServletRequest request) {
-        int userId = Integer.parseInt(request.getParameter("id"));
-        userService.delete(userId);
-        return new ModelAndView("redirect:/");
+    @RequestMapping(value="/edit/save", method=RequestMethod.POST)
+    public ModelAndView editingUser(@ModelAttribute User user) {
+        userService.save(user);
+        return new ModelAndView("redirect:/userList");
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ModelAndView saveUser(@ModelAttribute User user) {
-        userService.save(user);
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public ModelAndView deleteUser(@PathVariable Integer id) {
+        userService.delete(id);
         return new ModelAndView("redirect:/");
     }
 }

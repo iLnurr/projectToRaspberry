@@ -6,13 +6,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home</title>
+        <title>UserList</title>
     </head>
     <body>
         <div align="center">
 	        <h1>Users List</h1>
 	        <h2><a href="new">New User</a></h2>
-	        
+			<h2><a href="/">Home</a></h2>
         	<table border="1">
 	        	<th>No</th>
 	        	<th>Username</th>
@@ -25,9 +25,8 @@
 					<td>${user.name}</td>
 					<td>${user.email}</td>
 					<td>
-						<a href="edit?id=${user.id}">Edit</a>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="delete?id=${user.id}">Delete</a>
+						<a href="edit/${user.id}.html">Edit</a>
+						<a href="delete/${user.id}">Delete</a>
 					</td>
 	        	</tr>
 				</c:forEach>	        	
