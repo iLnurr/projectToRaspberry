@@ -13,9 +13,13 @@
 <div align="center">
     <h1>Добавить цитату</h1>
     <div>
-        <form:form action="saveQuota" method="post" modelAttribute="userQuotations">
+        <form:form action="saveQuota" method="post" modelAttribute="userQuotationsTo">
 
-            <div>Имя<input type="text" name="name"><br/></div>
+            <div>
+                <form:select path="userName">
+                    <form:options items="${users}" itemLabel="name" itemValue="name" />
+                </form:select>
+            </div>
             <div>
                 <form:textarea path="description" cols="20" rows="10" cssStyle="width: 50%; text-align: start"/>
             </div>

@@ -4,9 +4,12 @@ import iserba.model.User;
 import iserba.model.UserQuotations;
 import iserba.service.UserQuotationsService;
 import iserba.service.UserService;
+import iserba.to.UserQuotationsTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,15 +47,24 @@ public class HomeController {
     @RequestMapping(value = "/newQuota", method = RequestMethod.GET)
     public ModelAndView newUserQuota() {
         ModelAndView model = new ModelAndView("quotaForm");
-        model.addObject("userQuotations", new UserQuotations());
+        List<User> users = userService.getAll();
+        model.addObject("userQuotationsTo", new UserQuotationsTo());
+        model.addObject("users", users);
         return model;
     }
 
     @RequestMapping(value = "/saveQuota", method = RequestMethod.POST)
-    public ModelAndView saveQuota(@ModelAttribute UserQuotations userQuotations, HttpServletRequest request) {
-        String userName = request.getParameter("name");
-        int userId = userService.getUserIdByUserName(userName);
+    public ModelAndView saveQuota(
+            @ModelAttribute("userQuotationsTo") UserQuotationsTo userQuotationsTo,
+            BindingResult result,
+            ModelMap model) {
+        UserQuotations userQuotations = new UserQuotations();
+        userQuotations.setDescription(userQuotationsTo.getDescription());
         userQuotations.setDateTime(LocalDateTime.now());
+
+        String userName = userQuotationsTo.getUserName();
+        int userId = userService.getUserIdByUserName(userName);
+
         userQuotationsService.save(userQuotations, userId);
         return new ModelAndView("redirect:/");
     }
