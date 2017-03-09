@@ -17,7 +17,7 @@ public class SpringWebAppInitializer extends AbstractAnnotationConfigDispatcherS
         appContext.register(ApplicationContextConfig.class);
 
         final ConfigurableEnvironment env = appContext.getEnvironment();
-        env.setActiveProfiles("hibernate", "postgres");
+        env.setActiveProfiles("h2", "jdbc");
 
         appContext.refresh();
 
