@@ -7,6 +7,7 @@ import iserba.Profiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -49,6 +50,15 @@ public class ApplicationContextConfig {
                 .addScript("classpath:data.sql")
                 .build();
         return db;
+    }
+
+    @Bean(name = "transactionManager")
+    @Profile(Profiles.JDBC)
+    public DataSourceTransactionManager getTransactionManager() {
+        DataSourceTransactionManager txManager = new DataSourceTransactionManager();
+        DataSource dataSource = h2dataSource();
+        txManager.setDataSource(dataSource);
+        return txManager;
     }
 
     @Bean
