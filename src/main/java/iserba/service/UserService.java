@@ -7,6 +7,7 @@ import java.util.List;
 public interface UserService {
     User save(User user);
 
+    User update(User user);
     // false if not found
     boolean delete(int id);
 

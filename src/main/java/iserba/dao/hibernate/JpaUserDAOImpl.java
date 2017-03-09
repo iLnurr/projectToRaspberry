@@ -37,6 +37,12 @@ public class JpaUserDAOImpl implements UserDAO{
 
     @Override
     @Transactional
+    public User update(User user) {
+        return em.merge(user);
+    }
+
+    @Override
+    @Transactional
     public User get(int id) {
         return em.find(User.class, id);
     }

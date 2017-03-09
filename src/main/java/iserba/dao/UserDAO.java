@@ -7,6 +7,8 @@ import java.util.List;
 public interface UserDAO {
     User save(User user);
 
+    User update(User user);
+
     // false if not found
     boolean delete(int id);
 

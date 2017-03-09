@@ -6,14 +6,13 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>New or Edit User</title>
+    <title>New User</title>
 </head>
 <body>
 <div align="center">
-    <h1>New/Edit User</h1>
+    <h1>New User</h1>
     <table>
         <form:form action="save" method="post" modelAttribute="user">
-            <%--<form:hidden path="id"/>--%>
             <tr>
                 <td>Username:</td>
                 <td><form:input path="name"/></td>

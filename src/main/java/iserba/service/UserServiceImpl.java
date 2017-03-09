@@ -23,6 +23,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User update(User user) {
+        return userDAO.update(user);
+    }
+
+    @Override
     public boolean delete(int id) {
         for (UserQuotations u: userQuotationsDAO.getAll(id)){
             userQuotationsDAO.delete(u.getId(), id);

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -79,7 +78,7 @@ public class HomeController {
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView newUser() {
-        ModelAndView model = new ModelAndView("UserForm");
+        ModelAndView model = new ModelAndView("UserNewForm");
         model.addObject("user", new User());
         return model;
     }
@@ -93,14 +92,14 @@ public class HomeController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editUser(@PathVariable Integer id) {
         User user = userService.get(id);
-        ModelAndView model = new ModelAndView("UserForm");
+        ModelAndView model = new ModelAndView("UserEditForm");
         model.addObject("user", user);
         return model;
     }
 
     @RequestMapping(value="/edit/save", method=RequestMethod.POST)
     public ModelAndView editingUser(@ModelAttribute User user) {
-        userService.save(user);
+        userService.update(user);
         return new ModelAndView("redirect:/userList");
     }
 
