@@ -19,7 +19,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Profile(Profiles.JDBC)
 public class UserQuotationsDAOimpl implements UserQuotationsDAO {
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+    private int globalSequenceQuota = 50000;
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -33,12 +34,17 @@ public class UserQuotationsDAOimpl implements UserQuotationsDAO {
     @Override
     @Transactional
     public UserQuotations save(UserQuotations userQuotations, int userId) {
+        userQuotations.setId(generateId());
         jdbcTemplate.update("INSERT INTO quotations(id, date_time, description, user_id) VALUES(?, ?, ?, ?)",
                 userQuotations.getId(),
                 userQuotations.getDateTime(),
                 userQuotations.getDescription(),
                 userId);
         return userQuotations;
+    }
+
+    private int generateId() {
+        return globalSequenceQuota++;
     }
 
     @Override
@@ -83,6 +89,7 @@ public class UserQuotationsDAOimpl implements UserQuotationsDAO {
     public List<UserQuotations> getAll(int userId) {
         return this.jdbcTemplate.query(
                 "select id, date_time, description, user_id from quotations WHERE user_id = ?",
+                new Object[]{userId},
                 (rs, rowNum) -> {
                     UserQuotations userQuotations = new UserQuotations();
                     userQuotations.setId(rs.getInt("id"));

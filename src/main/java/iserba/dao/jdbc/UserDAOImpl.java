@@ -19,6 +19,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Profile(Profiles.JDBC)
 public class UserDAOImpl implements UserDAO{
+    private static int globalUserSequence = 10000;
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -29,9 +30,14 @@ public class UserDAOImpl implements UserDAO{
     @Override
     @Transactional
     public User save(User user) {
+        user.setId(generateId());
         int n = jdbcTemplate.update("INSERT INTO users(id, name, email, password) VALUES(?, ?, ?, ?)",
                 user.getId(), user.getName(), user.getEmail(), user.getPassword());
         return user;
+    }
+
+    private int generateId() {
+        return globalUserSequence++;
     }
 
     @Override
@@ -97,8 +103,8 @@ public class UserDAOImpl implements UserDAO{
                 (rs, rowNum) -> {
                     User user = new User();
                     user.setId(rs.getInt("id"));
-                    user.setName(rs.getString("name"));
-                    user.setEmail(rs.getString(name));
+                    user.setEmail(rs.getString("email"));
+                    user.setName(name);
                     user.setPassword(rs.getString("password"));
                     return user;
                 });
