@@ -31,4 +31,6 @@ public interface UserQuotationsService {
     void sortByDate(List<UserQuotations> list);
 
     String getFormattedDate(LocalDateTime localDateTime);
+
+    List<String> getSortedQuotations();
 }

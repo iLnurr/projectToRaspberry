@@ -29,16 +29,7 @@ public class HomeController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String catalog(Model model) {
-        List<UserQuotations> userQuotationsList = (List<UserQuotations>) userQuotationsService.getAll();
-        List<String> result = new ArrayList<>();
-        for (UserQuotations uq: userQuotationsList){
-            String userName = userService.get(userQuotationsService.getUserId(uq.getId())).getName();
-            String date = uq.getDateTime().toLocalDate().toString();
-            String quotation = uq.getDescription();
-            result.add(date + " " + userName + ": " + quotation);
-        }
-        List<String> reversedCopy = result.subList(0, result.size());
-        Collections.reverse(reversedCopy);
+        List<String> result = userQuotationsService.getSortedQuotations();
         model.addAttribute("quotationsList", result);
         return "index";
     }
