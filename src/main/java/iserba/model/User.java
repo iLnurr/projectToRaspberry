@@ -7,22 +7,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import java.util.List;
 
-@NamedQueries({
-        @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
-        @NamedQuery(name = User.BY_EMAIL, query = "SELECT u FROM User u WHERE u.email=?1"),
-        @NamedQuery(name = User.BY_NAME, query = "SELECT u FROM User u WHERE u.name=?1"),
-        @NamedQuery(name = User.ALL_SORTED, query = "SELECT u FROM User u ORDER BY u.name, u.email"),
-})
-
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User {
-
-    public static final String DELETE = "User.delete";
-    public static final String ALL_SORTED = "User.getAllSorted";
-    public static final String BY_EMAIL = "User.getByEmail";
-    public static final String BY_NAME = "User.getByName";
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")

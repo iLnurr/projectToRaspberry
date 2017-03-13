@@ -6,22 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@NamedQueries({
-        @NamedQuery(name = UserQuotations.GET, query = "SELECT m FROM UserQuotations m WHERE m.id=:id AND m.user.id=:userId"),
-        @NamedQuery(name = UserQuotations.ALL_SORTED, query = "SELECT m FROM UserQuotations m WHERE m.user.id=:userId ORDER BY m.dateTime DESC"),
-        @NamedQuery(name = UserQuotations.DELETE, query = "DELETE FROM UserQuotations m WHERE m.id=:id AND m.user.id=:userId"),
-        @NamedQuery(name = UserQuotations.GET_BETWEEN, query = "SELECT m FROM UserQuotations m "+
-                "WHERE m.user.id=:userId AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC")
-})
-
 @Entity
 @Table(name = "quotations", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "quotas_unique_user_datetime_idx")})
 public class UserQuotations {
-    public static final String GET = "UserQuotations.get";
-    public static final String ALL_SORTED = "UserQuotations.getAll";
-    public static final String DELETE = "UserQuotations.delete";
-    public static final String GET_BETWEEN = "UserQuotations.getBetween";
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
