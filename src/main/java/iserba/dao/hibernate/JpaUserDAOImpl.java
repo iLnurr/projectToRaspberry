@@ -4,7 +4,6 @@ import iserba.Profiles;
 import iserba.dao.UserDAO;
 import iserba.model.User;
 import iserba.model.User_;
-import org.hibernate.Criteria;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

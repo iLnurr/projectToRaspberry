@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface UserQuotationsService {
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
     // null if updated quotations do not belong to userId
     UserQuotations save(UserQuotations userQuotations, int userId);
 
