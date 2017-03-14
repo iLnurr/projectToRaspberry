@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserQuotationsServiceImpl implements UserQuotationsService {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
     @Autowired
     UserQuotationsDAO userQuotationsDAO;
 
@@ -64,14 +67,14 @@ public class UserQuotationsServiceImpl implements UserQuotationsService {
 
     @Override
     public List<String> getSortedQuotations() {
-        List<String> result = new ArrayList<>();
         List<UserQuotations> userQuotationsList = (List<UserQuotations>) getAll();
-        for (UserQuotations uq: userQuotationsList){
-            String userName = userDAO.get(getUserId(uq.getId())).getName();
-            String date = uq.getDateTime().toLocalDate().toString();
-            String quotation = uq.getDescription();
-            result.add(date + " " + userName + ": " + quotation);
-        }
+        List<String> result = userQuotationsList
+                .stream()
+                .map(uq ->
+                        uq.getDateTime().toLocalDate().toString() + " " +
+                        userDAO.get(getUserId(uq.getId())).getName() + ":" +
+                        uq.getDescription())
+                .collect(Collectors.toList());
         List<String> reversedCopy = result.subList(0, result.size());
         Collections.reverse(reversedCopy);
         return result;
