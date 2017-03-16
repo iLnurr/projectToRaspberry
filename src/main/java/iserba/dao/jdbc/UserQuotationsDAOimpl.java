@@ -13,14 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.List;
 
 @Repository
 @Transactional(readOnly = true)
 @Profile(Profiles.JDBC)
 public class UserQuotationsDAOimpl implements UserQuotationsDAO {
-    private int globalSequenceQuota = 50000;
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = new DateTimeFormatterBuilder()
+                    .appendPattern("yyyy-MM-dd HH:mm:ss")
+                    .appendFraction(ChronoField.MICRO_OF_SECOND, 0, 6, true)
+                    .toFormatter();
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -34,22 +38,18 @@ public class UserQuotationsDAOimpl implements UserQuotationsDAO {
     @Override
     @Transactional
     public UserQuotations save(UserQuotations userQuotations, int userId) {
-        userQuotations.setId(generateId());
-        jdbcTemplate.update("INSERT INTO quotations(id, date_time, description, user_id) VALUES(?, ?, ?, ?)",
-                userQuotations.getId(),
+        jdbcTemplate.update("INSERT INTO quotations(date_time, description, user_id) VALUES(?, ?, ?)",
                 userQuotations.getDateTime(),
                 userQuotations.getDescription(),
                 userId);
         return userQuotations;
     }
 
-    private int generateId() {
-        return globalSequenceQuota++;
-    }
-
     @Override
     @Transactional
     public boolean delete(int id, int userId) {
+        this.jdbcTemplate.update(
+                "delete from quotations where user_id = ?", userId);
         return true;
     }
 
@@ -58,7 +58,7 @@ public class UserQuotationsDAOimpl implements UserQuotationsDAO {
     public UserQuotations get(int id, int userId) {
         return this.jdbcTemplate.queryForObject(
                 "select date_time, description from quotations where id = ? and user_id = ?",
-                new Object[]{userId},
+                new Object[]{id, userId},
                 (rs, rowNum) -> {
                     UserQuotations userQuotations = new UserQuotations();
                     userQuotations.setId(id);
