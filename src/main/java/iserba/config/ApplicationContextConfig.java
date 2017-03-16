@@ -56,7 +56,7 @@ public class ApplicationContextConfig {
     @Profile(Profiles.JDBC)
     public DataSourceTransactionManager getTransactionManager() {
         DataSourceTransactionManager txManager = new DataSourceTransactionManager();
-        DataSource dataSource = pgDataSource();
+        DataSource dataSource = h2dataSource();
         txManager.setDataSource(dataSource);
         return txManager;
     }
