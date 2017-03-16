@@ -47,16 +47,13 @@ public class UserDAOImpl implements UserDAO{
         User user = this.jdbcTemplate.queryForObject(
                 "select * from users where user_id = ?",
                 new Object[]{id},
-                new RowMapper<User>() {
-                    @Override
-                    public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        User user = new User();
-                        user.setId(id);
-                        user.setName(rs.getString("name"));
-                        user.setEmail(rs.getString("email"));
-                        user.setPassword(rs.getString("password"));
-                        return user;
-                    }
+                (rs, rowNum) -> {
+                    User user1 = new User();
+                    user1.setId(id);
+                    user1.setName(rs.getString("name"));
+                    user1.setEmail(rs.getString("email"));
+                    user1.setPassword(rs.getString("password"));
+                    return user1;
                 });
         return user;
 
