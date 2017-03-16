@@ -56,7 +56,7 @@ public class ApplicationContextConfig {
     @Profile(Profiles.JDBC)
     public DataSourceTransactionManager getTransactionManager() {
         DataSourceTransactionManager txManager = new DataSourceTransactionManager();
-        DataSource dataSource = h2dataSource();
+        DataSource dataSource = pgDataSource();
         txManager.setDataSource(dataSource);
         return txManager;
     }
@@ -104,7 +104,6 @@ public class ApplicationContextConfig {
     Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "create");
-        properties.setProperty("hibernate.hbm2ddl.import_files","/resources/data.sql");
         properties.put("hibernate.show_sql", "true");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL94Dialect");
         return properties;
