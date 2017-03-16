@@ -6,13 +6,10 @@ import iserba.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -36,7 +33,7 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public User update(User user) {
-        int n = jdbcTemplate.update("UPDATE users SET name = ?, email = ?, password = ? WHERE user_id = ?",
+        int n = jdbcTemplate.update("UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?",
                 user.getName(), user.getEmail(), user.getPassword(), user.getId());
         return user;
     }
@@ -45,7 +42,7 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     public User get(int id) {
         User user = this.jdbcTemplate.queryForObject(
-                "select * from users where user_id = ?",
+                "select * from users where id = ?",
                 new Object[]{id},
                 (rs, rowNum) -> {
                     User user1 = new User();
@@ -63,9 +60,9 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     public boolean delete(int id) {
         this.jdbcTemplate.update(
-                "delete from quotations where user_id = ?", id);
+                "delete from quotations where id = ?", id);
         this.jdbcTemplate.update(
-                "delete from users where user_id = ?", id);
+                "delete from users where id = ?", id);
         return true;
     }
 
@@ -73,11 +70,11 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     public User getByEmail(String email) {
         return this.jdbcTemplate.queryForObject(
-                "select user_id, name, password from users where email = ?",
+                "select id, name, password from users where email = ?",
                 new Object[]{email},
                 (rs, rowNum) -> {
                     User user = new User();
-                    user.setId(rs.getInt("user_id"));
+                    user.setId(rs.getInt("id"));
                     user.setName(rs.getString("name"));
                     user.setEmail(rs.getString(email));
                     user.setPassword(rs.getString("password"));
@@ -89,11 +86,11 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     public User getByName(String name) {
         return this.jdbcTemplate.queryForObject(
-                "select user_id, email, password from users where name = ?",
+                "select id, email, password from users where name = ?",
                 new Object[]{name},
                 (rs, rowNum) -> {
                     User user = new User();
-                    user.setId(rs.getInt("user_id"));
+                    user.setId(rs.getInt("id"));
                     user.setEmail(rs.getString("email"));
                     user.setName(name);
                     user.setPassword(rs.getString("password"));
@@ -105,10 +102,10 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     public List<User> getAll() {
         return this.jdbcTemplate.query(
-                "select user_id, name, email, password from users",
+                "select id, name, email, password from users",
                 (rs, rowNum) -> {
                     User user = new User();
-                    user.setId(rs.getInt("user_id"));
+                    user.setId(rs.getInt("id"));
                     user.setName(rs.getString("name"));
                     user.setEmail(rs.getString("email"));
                     user.setPassword(rs.getString("password"));
