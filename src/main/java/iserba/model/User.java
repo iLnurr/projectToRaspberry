@@ -1,5 +1,7 @@
 package iserba.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -12,7 +14,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID")
+    @Column(name = "user_id")
     private Integer id;
 
     @NotEmpty
@@ -29,9 +31,8 @@ public class User {
     @NotEmpty
     private String email;
 
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "user")
-    @OrderBy("dateTime DESC")
-//    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     protected List<UserQuotations> quotations;
 
     public User() {
@@ -46,10 +47,6 @@ public class User {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -78,6 +75,18 @@ public class User {
 
     public boolean isNew() {
         return (this.id == null);
+    }
+
+    public List<UserQuotations> getQuotations() {
+        return quotations;
+    }
+
+    public void setQuotations(List<UserQuotations> quotations) {
+        this.quotations = quotations;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override

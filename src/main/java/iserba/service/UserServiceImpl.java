@@ -29,9 +29,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean delete(int id) {
-        for (UserQuotations u: userQuotationsDAO.getAll(id)){
-            userQuotationsDAO.delete(u.getId(), id);
-        }
         return userDAO.delete(id);
     }
 
