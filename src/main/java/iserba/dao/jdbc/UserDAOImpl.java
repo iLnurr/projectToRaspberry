@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional
 @Profile(Profiles.JDBC)
 public class UserDAOImpl implements UserDAO{
     private static int globalUserSequence = 10000;
@@ -31,18 +31,18 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     public User save(User user) {
         user.setId(generateId());
-        int n = jdbcTemplate.update("INSERT INTO users(id, name, email, password) VALUES(?, ?, ?, ?)",
+        int n = jdbcTemplate.update("INSERT INTO users(user_id, name, email, password) VALUES(?, ?, ?, ?)",
                 user.getId(), user.getName(), user.getEmail(), user.getPassword());
         return user;
     }
 
     private int generateId() {
-        return globalUserSequence++;
+        return ++globalUserSequence;
     }
 
     @Override
     public User update(User user) {
-        int n = jdbcTemplate.update("UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?",
+        int n = jdbcTemplate.update("UPDATE users SET name = ?, email = ?, password = ? WHERE user_id = ?",
                 user.getName(), user.getEmail(), user.getPassword(), user.getId());
         return user;
     }
@@ -51,7 +51,7 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     public User get(int id) {
         User user = this.jdbcTemplate.queryForObject(
-                "select * from users where id = ?",
+                "select * from users where user_id = ?",
                 new Object[]{id},
                 new RowMapper<User>() {
                     @Override
@@ -74,7 +74,7 @@ public class UserDAOImpl implements UserDAO{
         this.jdbcTemplate.update(
                 "delete from quotations where user_id = ?", id);
         this.jdbcTemplate.update(
-                "delete from users where id = ?", id);
+                "delete from users where user_id = ?", id);
         return true;
     }
 
@@ -82,11 +82,11 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     public User getByEmail(String email) {
         return this.jdbcTemplate.queryForObject(
-                "select id, name, password from users where email = ?",
+                "select user_id, name, password from users where email = ?",
                 new Object[]{email},
                 (rs, rowNum) -> {
                     User user = new User();
-                    user.setId(rs.getInt("id"));
+                    user.setId(rs.getInt("user_id"));
                     user.setName(rs.getString("name"));
                     user.setEmail(rs.getString(email));
                     user.setPassword(rs.getString("password"));
@@ -98,11 +98,11 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     public User getByName(String name) {
         return this.jdbcTemplate.queryForObject(
-                "select id, email, password from users where name = ?",
+                "select user_id, email, password from users where name = ?",
                 new Object[]{name},
                 (rs, rowNum) -> {
                     User user = new User();
-                    user.setId(rs.getInt("id"));
+                    user.setId(rs.getInt("user_id"));
                     user.setEmail(rs.getString("email"));
                     user.setName(name);
                     user.setPassword(rs.getString("password"));
@@ -114,10 +114,10 @@ public class UserDAOImpl implements UserDAO{
     @Transactional
     public List<User> getAll() {
         return this.jdbcTemplate.query(
-                "select id, name, email, password from users",
+                "select user_id, name, email, password from users",
                 (rs, rowNum) -> {
                     User user = new User();
-                    user.setId(rs.getInt("id"));
+                    user.setId(rs.getInt("user_id"));
                     user.setName(rs.getString("name"));
                     user.setEmail(rs.getString("email"));
                     user.setPassword(rs.getString("password"));
