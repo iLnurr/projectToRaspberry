@@ -46,8 +46,8 @@ public class ApplicationContextConfig {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         EmbeddedDatabase db = builder
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("classpath:schema.sql")
-                .addScript("classpath:data.sql")
+                .addScript("classpath:schemaH2DB.sql")
+                .addScript("classpath:dataH2DB.sql")
                 .build();
         return db;
     }

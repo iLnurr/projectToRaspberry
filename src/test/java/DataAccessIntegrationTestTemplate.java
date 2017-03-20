@@ -11,7 +11,7 @@ public class DataAccessIntegrationTestTemplate {
     @Before
     public void setUp() {
         // creates an HSQL in-memory database populated from default scripts
-        // classpath:schema.sql and classpath:data.sql
+        // classpath:schemaH2DB.sql and classpath:dataH2DB.sql
         db = new EmbeddedDatabaseBuilder()
                 .generateUniqueName(true)
                 .addDefaultScripts()
