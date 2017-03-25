@@ -60,17 +60,7 @@ public class JpaUserQuotationsDAOImpl implements UserQuotationsDAO{
     @Override
     @Transactional
     public UserQuotations get(int id, int userId) {
-        final CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        final CriteriaQuery<UserQuotations> criteriaQuery = criteriaBuilder.createQuery(UserQuotations.class);
-        Root<UserQuotations> root = criteriaQuery.from(UserQuotations.class);
-        criteriaQuery.select(root);
-
-        Predicate predicate1 = criteriaBuilder.equal(root.get(UserQuotations_.id),id);
-        Predicate predicate2 = criteriaBuilder.equal(root.get(UserQuotations_.user),userId);
-        criteriaQuery.where(predicate1, predicate2);
-
-        TypedQuery<UserQuotations> query = em.createQuery(criteriaQuery);
-        return query.getSingleResult();
+        return em.find(UserQuotations.class, id);
     }
 
     @Override
