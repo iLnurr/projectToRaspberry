@@ -36,32 +36,13 @@ public class JpaUserDAOImpl implements UserDAO{
     @Override
     @Transactional
     public User update(User user) {
-        final CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        final CriteriaUpdate<User> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(User.class);
-        Root<User> root = criteriaUpdate.from(User.class);
-
-        criteriaUpdate.set(root.get(User_.name), user.getName());
-        criteriaUpdate.set(root.get(User_.email), user.getEmail());
-        criteriaUpdate.set(root.get(User_.password), user.getPassword());
-        criteriaUpdate.where(criteriaBuilder.equal(root.get(User_.id), user.getId()));
-
-        em.createQuery(criteriaUpdate).executeUpdate();
-        return user;
+        return em.merge(user);
     }
 
     @Override
     @Transactional
     public User get(int id) {
-        final CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        final CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-        Root<User> root = criteriaQuery.from(User.class);
-        criteriaQuery.select(root);
-
-        Predicate predicate = criteriaBuilder.equal(root.get(User_.id),id);
-        criteriaQuery.where(predicate);
-
-        TypedQuery<User> query = em.createQuery(criteriaQuery);
-        return query.getSingleResult();
+        return em.find(User.class, id);
     }
 
     @Override
