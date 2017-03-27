@@ -17,18 +17,18 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
 
-    @NotEmpty
+    @NotEmpty(message = "нужно заполнить поле имя")
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "password", nullable = false)
-    @NotEmpty
-    @Length(min = 5)
+    @NotEmpty(message = "пароль не должен быть пустым")
+    @Length(min = 5, message = "длина пароля минимум 5 знаков")
     private String password;
 
     @Column(name = "email", nullable = false, unique = true)
-    @Email
-    @NotEmpty
+    @Email(message = "введите email")
+    @NotEmpty(message = "нужно заполнить поле email")
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")

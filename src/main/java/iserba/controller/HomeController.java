@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -76,9 +77,12 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ModelAndView saveUser(@ModelAttribute User user) {
+    public String saveUser(@Valid @ModelAttribute User user, BindingResult result) {
+        if (result.hasErrors()){
+            return "UserNewForm";
+        }
         userService.save(user);
-        return new ModelAndView("redirect:/");
+        return "index";
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
