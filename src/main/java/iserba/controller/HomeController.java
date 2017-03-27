@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
+@RequestMapping(value = "/")
 public class HomeController {
     @Autowired
     private UserService userService;

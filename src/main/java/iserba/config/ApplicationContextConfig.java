@@ -23,22 +23,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan("iserba")
+@ComponentScan(basePackages ={ "iserba" }, excludeFilters = {@ComponentScan.Filter(type = FilterType.ANNOTATION, value = Configuration.class)})
 @EnableTransactionManagement
 public class ApplicationContextConfig {
-
-    public ApplicationContextConfig() {
-        super();
-    }
-
-    @Bean(name = "viewResolver")
-    public InternalResourceViewResolver getViewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setContentType("text/html;charset=UTF-8");
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
-    }
 
     @Bean
     @Profile(Profiles.H2)
