@@ -1,10 +1,13 @@
 package iserba.to;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * Created by ilnur on 07.03.17.
  */
 public class UserQuotationsTo {
     private String userName;
+    @NotEmpty(message = "сообщение не может быть пустым")
     private String description;
 
     public UserQuotationsTo(String userName, String description) {

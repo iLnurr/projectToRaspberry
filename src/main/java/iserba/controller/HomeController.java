@@ -46,10 +46,16 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/saveQuota", method = RequestMethod.POST)
-    public ModelAndView saveQuota(
+    public String saveQuota(@Valid
             @ModelAttribute("userQuotationsTo") UserQuotationsTo userQuotationsTo,
             BindingResult result,
             ModelMap model) {
+        if (result.hasErrors()){
+            List<User> users = userService.getAll();
+            model.addAttribute("users", users);
+            return "quotaForm";
+        }
+
         UserQuotations userQuotations = new UserQuotations();
         userQuotations.setDescription(userQuotationsTo.getDescription());
         userQuotations.setDateTime(LocalDateTime.now());
@@ -58,7 +64,7 @@ public class HomeController {
         int userId = userService.getUserIdByUserName(userName);
 
         userQuotationsService.save(userQuotations, userId);
-        return new ModelAndView("redirect:/");
+        return "redirect:/";
     }
 
     @RequestMapping("/userList")

@@ -8,6 +8,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Цитатник</title>
+    <style>
+        .error {
+            color: #ff0000;
+            font-style: italic;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <div align="center">
@@ -27,6 +34,7 @@
                 <input type="reset" style="background: red; color: white; height: 40px" value="Отменить">
                 <input type="submit" style="background: green; color: white; height: 40px;width: 40px" value="+">
             </div>
+            <div><form:errors path="description" cssClass="error"/></div>
         </form:form>
     </div>
 </div>

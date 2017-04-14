@@ -14,7 +14,7 @@ public class UserQuotations {
     private Integer id;
 
     @Column(name = "description", nullable = false, length = 4096)
-    @NotEmpty
+    @NotEmpty(message = "не может быть пустым")
     private String description;
 
     @Column(name = "date_time", nullable = false)
