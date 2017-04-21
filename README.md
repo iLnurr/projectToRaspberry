@@ -2,4 +2,4 @@
 
 site- iserba.ru
 
-used: Spring 4, JDBC, H2, JSP, Hibernate, Postgres.
+used: Spring 4, JDBC, H2, JSP, Hibernate, Postgres, Criteria API.
