@@ -1,23 +1,26 @@
 package iserba.service;
 
 import iserba.model.User;
+import iserba.to.UserTo;
 
 import java.util.List;
 
 public interface UserService {
-    User save(User user);
+    User save(UserTo userTo);
 
-    User update(User user);
+    User update(UserTo userTo);
     // false if not found
     boolean delete(int id);
 
     // null if not found
+    UserTo getTo(int id);
+
     User get(int id);
 
     // null if not found
-    User getByEmail(String email);
+    UserTo getByEmail(String email);
 
-    List<User> getAll();
+    List<UserTo> getAll();
 
-    int getUserIdByUserName(String userName);
+    int getUserToIdByUserName(String userName);
 }

@@ -4,6 +4,8 @@ import iserba.dao.UserDAO;
 import iserba.dao.UserQuotationsDAO;
 import iserba.model.User;
 import iserba.model.UserQuotations;
+import iserba.to.UserConverter;
+import iserba.to.UserTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +19,18 @@ public class UserServiceImpl implements UserService{
     @Autowired
     UserQuotationsDAO userQuotationsDAO;
 
+    @Autowired
+    UserConverter converter;
+
     @Override
-    public User save(User user) {
+    public User save(UserTo userTo) {
+        User user = converter.createFromDto(userTo);
         return userDAO.save(user);
     }
 
     @Override
-    public User update(User user) {
+    public User update(UserTo userTo) {
+        User user = converter.createFromDto(userTo);
         return userDAO.update(user);
     }
 
@@ -33,22 +40,30 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public UserTo getTo(int id) {
+        User user = userDAO.get(id);
+        return converter.createFromEntity(user);
+    }
+
+    @Override
     public User get(int id) {
         return userDAO.get(id);
     }
 
     @Override
-    public User getByEmail(String email) {
-        return userDAO.getByEmail(email);
+    public UserTo getByEmail(String email) {
+        User user = userDAO.getByEmail(email);
+        return converter.createFromEntity(user);
     }
 
     @Override
-    public List<User> getAll() {
-        return userDAO.getAll();
+    public List<UserTo> getAll() {
+        List<User> users = userDAO.getAll();
+        return converter.createFromEntities(users);
     }
 
     @Override
-    public int getUserIdByUserName(String userName) {
+    public int getUserToIdByUserName(String userName) {
         User user = userDAO.getByName(userName);
         return user.getId();
     }

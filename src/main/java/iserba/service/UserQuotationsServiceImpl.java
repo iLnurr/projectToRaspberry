@@ -2,7 +2,10 @@ package iserba.service;
 
 import iserba.dao.UserDAO;
 import iserba.dao.UserQuotationsDAO;
+import iserba.model.User;
 import iserba.model.UserQuotations;
+import iserba.to.UserQuotationsConverter;
+import iserba.to.UserQuotationsTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +23,15 @@ public class UserQuotationsServiceImpl implements UserQuotationsService {
     @Autowired
     UserDAO userDAO;
 
+    @Autowired
+    UserQuotationsConverter converter;
+
     @Override
-    public UserQuotations save(UserQuotations userQuotations, int userId) {
+    public UserQuotations save(UserQuotationsTo userQuotationsTo) {
+        UserQuotations userQuotations = converter.createFromDto(userQuotationsTo);
+        String userName = userQuotationsTo.getUserName();
+        User user = userDAO.getByName(userName);
+        Integer userId = user.getId();
         return userQuotationsDAO.save(userQuotations, userId);
     }
 
@@ -31,18 +41,21 @@ public class UserQuotationsServiceImpl implements UserQuotationsService {
     }
 
     @Override
-    public UserQuotations get(int id, int userId) {
-        return userQuotationsDAO.get(id, userId);
+    public UserQuotationsTo get(int id, int userId) {
+        UserQuotations uq = userQuotationsDAO.get(id, userId);
+        return converter.createFromEntity(uq);
     }
 
     @Override
-    public Collection<UserQuotations> getAll() {
-        return userQuotationsDAO.getAll();
+    public Collection<UserQuotationsTo> getAll() {
+        Collection<UserQuotations> l = userQuotationsDAO.getAll();
+        return converter.createFromEntities(l);
     }
 
     @Override
-    public Collection<UserQuotations> getAll(int userId) {
-        return userQuotationsDAO.getAll(userId);
+    public Collection<UserQuotationsTo> getAll(int userId) {
+        Collection<UserQuotations> l = userQuotationsDAO.getAll(userId);
+        return converter.createFromEntities(l);
     }
 
     @Override
@@ -67,7 +80,7 @@ public class UserQuotationsServiceImpl implements UserQuotationsService {
 
     @Override
     public List<String> getSortedQuotations() {
-        List<UserQuotations> userQuotationsList = (List<UserQuotations>) getAll();
+        List<UserQuotationsTo> userQuotationsList = (List<UserQuotationsTo>) getAll();
         List<String> result = userQuotationsList
                 .stream()
                 .map(uq ->

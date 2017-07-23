@@ -1,10 +1,9 @@
 package iserba.controller;
 
-import iserba.model.User;
-import iserba.model.UserQuotations;
 import iserba.service.UserQuotationsService;
 import iserba.service.UserService;
 import iserba.to.UserQuotationsTo;
+import iserba.to.UserTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -39,7 +37,7 @@ public class HomeController {
     @RequestMapping(value = "/newQuota", method = RequestMethod.GET)
     public ModelAndView newUserQuota() {
         ModelAndView model = new ModelAndView("quotaForm");
-        List<User> users = userService.getAll();
+        List<UserTo> users = userService.getAll();
         model.addObject("userQuotationsTo", new UserQuotationsTo());
         model.addObject("users", users);
         return model;
@@ -51,26 +49,19 @@ public class HomeController {
             BindingResult result,
             ModelMap model) {
         if (result.hasErrors()){
-            List<User> users = userService.getAll();
+            List<UserTo> users = userService.getAll();
             model.addAttribute("users", users);
             return "quotaForm";
         }
 
-        UserQuotations userQuotations = new UserQuotations();
-        userQuotations.setDescription(userQuotationsTo.getDescription());
-        userQuotations.setDateTime(LocalDateTime.now());
-
-        String userName = userQuotationsTo.getUserName();
-        int userId = userService.getUserIdByUserName(userName);
-
-        userQuotationsService.save(userQuotations, userId);
+        userQuotationsService.save(userQuotationsTo);
         return "redirect:/";
     }
 
     @RequestMapping("/userList")
     public ModelAndView listOfUsers(){
         ModelAndView model = new ModelAndView("UserList");
-        List<User> listUsers = userService.getAll();
+        List<UserTo> listUsers = userService.getAll();
         model.addObject("userList", listUsers);
         return model;
     }
@@ -78,30 +69,30 @@ public class HomeController {
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView newUser() {
         ModelAndView model = new ModelAndView("UserNewForm");
-        model.addObject("user", new User());
+        model.addObject("user", new UserTo());
         return model;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveUser(@Valid @ModelAttribute User user, BindingResult result) {
+    public String saveUser(@Valid @ModelAttribute UserTo userTo, BindingResult result) {
         if (result.hasErrors()){
             return "UserNewForm";
         }
-        userService.save(user);
+        userService.save(userTo);
         return "index";
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editUser(@PathVariable Integer id) {
-        User user = userService.get(id);
+        UserTo userTo = userService.getTo(id);
         ModelAndView model = new ModelAndView("UserEditForm");
-        model.addObject("user", user);
+        model.addObject("user", userTo);
         return model;
     }
 
     @RequestMapping(value="/edit/save", method=RequestMethod.POST)
-    public ModelAndView editingUser(@ModelAttribute User user) {
-        userService.update(user);
+    public ModelAndView editingUser(@ModelAttribute UserTo userTo) {
+        userService.update(userTo);
         return new ModelAndView("redirect:/userList");
     }
 

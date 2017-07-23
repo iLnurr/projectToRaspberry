@@ -1,6 +1,7 @@
 package iserba.service;
 
 import iserba.model.UserQuotations;
+import iserba.to.UserQuotationsTo;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,18 +11,18 @@ import java.util.List;
 public interface UserQuotationsService {
 
     // null if updated quotations do not belong to userId
-    UserQuotations save(UserQuotations userQuotations, int userId);
+    UserQuotations save(UserQuotationsTo userQuotationsTo);
 
     // false if quotations do not belong to userId
     boolean delete(int id, int userId);
 
     // null if quotations do not belong to userId
-    UserQuotations get(int id, int userId);
+    UserQuotationsTo get(int id, int userId);
 
-    Collection<UserQuotations> getAll();
+    Collection<UserQuotationsTo> getAll();
 
     // ORDERED dateTime
-    Collection<UserQuotations> getAll(int userId);
+    Collection<UserQuotationsTo> getAll(int userId);
 
     // ORDERED dateTime
     Collection<UserQuotations> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);
