@@ -1,5 +1,5 @@
 #How to get file from google drive to tomcat folder in raspbian
-wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0B6iC2KVuzaXzNFc5dTBYYm5NOW8' -O ROOT.war
+wget --no-check-certificate 'https://drive.google.com/uc?export=download&id=0B6iC2KVuzaXzbTJvLVBaQnl5UzQ' -O ROOT.war
 
 sudo su
 

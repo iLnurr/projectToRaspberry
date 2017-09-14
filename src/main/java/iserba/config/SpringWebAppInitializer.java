@@ -18,7 +18,7 @@ public class SpringWebAppInitializer implements WebApplicationInitializer{
         rootContext.register(ApplicationContextConfig.class);
         servletContext.addListener(new ContextLoaderListener(rootContext));
         final ConfigurableEnvironment env = rootContext.getEnvironment();
-        env.setActiveProfiles("hibernate", "postgres");
+        env.setActiveProfiles("jdbc", "h2");
         rootContext.refresh();
 
         AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
