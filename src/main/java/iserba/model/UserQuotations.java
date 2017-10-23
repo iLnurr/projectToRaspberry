@@ -1,9 +1,6 @@
 package iserba.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,11 +11,9 @@ public class UserQuotations {
     private Integer id;
 
     @Column(name = "description", nullable = false, length = 4096)
-    @NotEmpty(message = "не может быть пустым")
     private String description;
 
     @Column(name = "date_time", nullable = false)
-    @NotNull
     private LocalDateTime dateTime;
 
     @ManyToOne

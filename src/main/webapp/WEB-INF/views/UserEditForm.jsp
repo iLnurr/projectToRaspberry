@@ -7,6 +7,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit User</title>
+    <style>
+        .error {
+            color: #ff0000;
+            font-style: italic;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <div align="center">
@@ -17,14 +24,17 @@
             <tr>
                 <td>Username:</td>
                 <td><form:input path="name"/></td>
+                <td><form:errors path="name" cssClass="error"/></td>
             </tr>
             <tr>
                 <td>Email:</td>
                 <td><form:input path="email"/></td>
+                <td><form:errors path="email" cssClass="error"/></td>
             </tr>
             <tr>
                 <td>Password:</td>
                 <td><form:password path="password"/></td>
+                <td><form:errors path="password" cssClass="error"/></td>
             </tr>
             <tr>
                 <td colspan="2" align="center">

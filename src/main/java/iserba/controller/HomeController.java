@@ -44,8 +44,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/saveQuota", method = RequestMethod.POST)
-    public String saveQuota(@Valid
-            @ModelAttribute("userQuotationsTo") UserQuotationsTo userQuotationsTo,
+    public String saveQuota(
+            @Valid @ModelAttribute("userQuotationsTo") UserQuotationsTo userQuotationsTo,
             BindingResult result,
             ModelMap model) {
         if (result.hasErrors()){
@@ -68,13 +68,11 @@ public class HomeController {
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView newUser() {
-        ModelAndView model = new ModelAndView("UserNewForm");
-        model.addObject("user", new UserTo());
-        return model;
+        return new ModelAndView("UserNewForm", "user", new UserTo());
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String saveUser(@Valid @ModelAttribute UserTo userTo, BindingResult result) {
+    public String saveUser(@Valid @ModelAttribute("user") UserTo userTo, BindingResult result) {
         if (result.hasErrors()){
             return "UserNewForm";
         }
@@ -84,16 +82,16 @@ public class HomeController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editUser(@PathVariable Integer id) {
-        UserTo userTo = userService.getTo(id);
-        ModelAndView model = new ModelAndView("UserEditForm");
-        model.addObject("user", userTo);
-        return model;
+        return new ModelAndView("UserEditForm","user", userService.getTo(id));
     }
 
     @RequestMapping(value="/edit/save", method=RequestMethod.POST)
-    public ModelAndView editingUser(@ModelAttribute UserTo userTo) {
+    public String editingUser(@Valid @ModelAttribute("user") UserTo userTo, BindingResult result) {
+        if (result.hasErrors()){
+            return "UserEditForm";
+        }
         userService.update(userTo);
-        return new ModelAndView("redirect:/userList");
+        return "redirect:/userList";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
